@@ -1,4 +1,5 @@
 package com.onlineshopping.trial.products.model;
+import com.onlineshopping.trial.enums.EProductCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class Products {
     @Column
     private String productName;
     @Column
-    private UUID categoryId;
+    private EProductCategory productCategory;
     @Column
     private double price;
     @Transient
@@ -27,10 +28,10 @@ public class Products {
     @Column
     private String description;
 
-    public Products(UUID productId, String productName, UUID categoryId,double price) {
+    public Products(UUID productId, String productName, EProductCategory productCategory,double price) {
         this.productId= productId;
         this.productName= productName;
-        this.categoryId= categoryId;
+        this.productCategory= productCategory;
         this.price=price;
 
     }

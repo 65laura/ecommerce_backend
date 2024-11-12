@@ -33,7 +33,7 @@ public class SecurityConfig {
         return http
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of(""));
+                    config.addAllowedOriginPattern("*");
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
                     config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
                     return config;

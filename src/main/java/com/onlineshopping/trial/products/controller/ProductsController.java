@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("product")
+@RequestMapping("public")
 @RequiredArgsConstructor
 public class ProductsController {
 
@@ -30,8 +30,8 @@ public class ProductsController {
             @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
-    @SecurityRequirement(name = "Bearer Authentication")
-    @PostMapping("create")
+//    @SecurityRequirement(name = "Bearer Authentication")
+    @PostMapping("product/create")
     public Products createProduct(ProductDto productDto){
         return productService.createProduct(productDto);
     }
