@@ -11,6 +11,7 @@ import javax.annotation.processing.Generated;
         comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.2 (Oracle Corporation)")
 @Component
 public class ProductServiceMapper implements IProductServiceMapper{
+
     @Override
     public Products toProductServiceEntity(ProductDto productDto) {
    if (productDto == null){
@@ -19,7 +20,7 @@ public class ProductServiceMapper implements IProductServiceMapper{
    Products product = new Products();
    product.setProductName(productDto.getProductName());
    product.setPrice(productDto.getPrice());
-   product.setDiscountedPrice(product.getDiscountedPrice());
+   product.setDiscountedPrice(productDto.getDiscountedPrice());
    product.setDescription(productDto.getDescription());
    return product;
     }
