@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface UserService extends UserDetailsService{
     User createUser(UserDto userdto) ;
      Page<User> getAllUsers(Pageable pageable);
-    User UpdateUser(UUID userId,UserDto userDto);
+    User updateUser(UUID userId,UserDto userDto);
     User getSingleUser(UUID userId);
     void deleteUser(UUID userId);
 

@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public User UpdateUser(UUID userId,UserDto userDto) {
+    public User updateUser(UUID userId,UserDto userDto) {
         Optional<User> existingUser = userRepository.findById(userId);
         if(existingUser.isPresent()){
             throw new RuntimeException("User already exists");
