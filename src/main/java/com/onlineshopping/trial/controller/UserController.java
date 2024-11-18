@@ -36,19 +36,19 @@ public class UserController {
     public ResponseEntity<User> getSingleUserById(@PathVariable UUID id){
         return userService.getSingleUser(id);
     }
-    @GetMapping("/users/single")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<Object> getMyDetails(){
-        return ResponseEntity.ok(userRepository.findByEmail(getLoggedInUserDetails().getUsername()));
-    }
-
-    public UserDetails getLoggedInUserDetails(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null && authentication.getPrincipal() instanceof UserDetails){
-            return (UserDetails) authentication.getPrincipal();
-        }
-        return null;
-    }
+//    @GetMapping("/users/single")
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+//    public ResponseEntity<Object> getMyDetails(){
+//        return ResponseEntity.ok(userRepository.findByEmail(getLoggedInUserDetails().getUsername()));
+//    }
+//
+//    public UserDetails getLoggedInUserDetails(){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if(authentication != null && authentication.getPrincipal() instanceof UserDetails){
+//            return (UserDetails) authentication.getPrincipal();
+//        }
+//        return null;
+//    }
 
 }
 

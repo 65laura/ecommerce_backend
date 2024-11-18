@@ -28,12 +28,5 @@ public class Products {
     @Column
     private String description;
 
-    public Products(UUID productId, String productName, EProductCategory productCategory,double price) {
-        this.productId= productId;
-        this.productName= productName;
-        this.productCategory= productCategory;
-        this.price=price;
-
-    }
 
 }

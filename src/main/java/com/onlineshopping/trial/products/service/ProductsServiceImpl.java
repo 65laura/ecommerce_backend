@@ -21,18 +21,13 @@ public class ProductsServiceImpl implements IProductService {
 
     @Override
     @SneakyThrows
-    public Products createProduct(ProductDto products) {
-        Optional<Products> existingProduct = productsRepository.findProductsByproductName(products.getProductName());
+    public Products createProduct(ProductDto productDto) {
+        Optional<Products> existingProduct = productsRepository.findProductsByproductName(productDto.getProductName());
         if (existingProduct.isPresent()) {
             throw new RuntimeException("Product already exists");
         }
-       Products productEntity = new Products();
-        productEntity.setProductName(products.getProductName());
-        productEntity.setProductCategory(products.getProductCategory());
-        productEntity.setPrice(products.getPrice());
-        productEntity.setDiscountedPrice(products.getDiscountedPrice());
-        productEntity.setDescription(products.getDescription());
-    return productsRepository.save(productEntity);
+        Products products = productServiceMapper.toProductServiceEntity(productDto);
+    return productsRepository.save(products);
     }
 
 
