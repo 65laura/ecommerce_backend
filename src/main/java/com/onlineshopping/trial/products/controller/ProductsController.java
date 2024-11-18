@@ -1,6 +1,7 @@
 package com.onlineshopping.trial.products.controller;
 
 import com.onlineshopping.trial.dto.ProductDto;
+import com.onlineshopping.trial.enums.EProductCategory;
 import com.onlineshopping.trial.products.service.IProductService;
 import com.onlineshopping.trial.products.model.Products;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,13 +11,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("public")
@@ -35,4 +37,43 @@ public class ProductsController {
     public Products createProduct(ProductDto productDto){
         return productService.createProduct(productDto);
     }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product updated", content = @Content(schema = @Schema(implementation = Products.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
+    })
+    @PutMapping("product/update")
+    public Products updateProduct(@RequestHeader UUID productId, @RequestBody ProductDto productDto) {
+        return productService.updateProduct(productId, productDto);
   }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Products retrieved", content = @Content(schema = @Schema(implementation = Page.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
+    })
+    @GetMapping("product/all")
+    public Page<Products> getAllProducts(Pageable pageable) {
+        return productService.getAllProducts(pageable);
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved", content = @Content(schema = @Schema(implementation = Products.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
+    })
+    @GetMapping("/productId")
+    public Products getProductById(@RequestHeader UUID productId) {
+        return productService.getProductById(productId);
+    }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Products retrieved", content = @Content(schema = @Schema(implementation = Page.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
+    })
+    @GetMapping("/search")
+    public Page<Products> searchProducts(@RequestParam(required = false) String searchParam, @RequestParam(required = false) EProductCategory productCategory, Pageable pageable) {
+        return productService.searchProducts(searchParam, productCategory, pageable);
+    }
+
+}
