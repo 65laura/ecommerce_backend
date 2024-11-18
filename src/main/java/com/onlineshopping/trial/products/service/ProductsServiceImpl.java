@@ -1,14 +1,19 @@
 package com.onlineshopping.trial.products.service;
 import com.onlineshopping.trial.dto.ProductDto;
+import com.onlineshopping.trial.enums.EProductCategory;
 import com.onlineshopping.trial.products.model.Products;
 import com.onlineshopping.trial.products.repository.ProductsRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -28,6 +33,34 @@ public class ProductsServiceImpl implements IProductService {
         }
         Products products = productServiceMapper.toProductServiceEntity(productDto);
     return productsRepository.save(products);
+    }
+
+    @Override
+    public Products updateProduct(UUID productId, ProductDto productDto) {
+        Optional<Products> existingProduct = productsRepository.findById(productId);
+        if (existingProduct.isPresent()){
+            throw new RuntimeException("Product not found");
+    }
+        Products products = existingProduct.get();
+        products.setProductCategory(productDto.getProductCategory());
+        products.setProductName(products.getProductName());
+        products.setDescription(products.getDescription());
+        products.setPrice(products.getPrice());
+        return productsRepository.save(products);
+    }
+
+    @Override
+    public Page<Products> getAllProducts(Pageable pageable) {
+        return productsRepository.findAll(pageable);
+    }
+
+    @Override
+    public Products getProductById(UUID productId) {
+        return productsRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+    @Override
+    public Page<Products> searchProducts(String searchParam, EProductCategory productCategory, Pageable pageable) {
+        return productsRepository.searchProducts(searchParam,productCategory,pageable);
     }
 
 
