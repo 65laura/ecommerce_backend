@@ -4,16 +4,15 @@ import com.onlineshopping.trial.model.User;
 import com.onlineshopping.trial.repositories.UserRepository;
 import com.onlineshopping.trial.service.IUserServiceMapper;
 import com.onlineshopping.trial.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,29 +26,39 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUser(UserDto userdto) {
-        return userServiceMapper.toUserServiceEntity(userdto);
+        User user = userServiceMapper.toUserServiceEntity(userdto);
+        return userRepository.save(user);
     }
 
     @Override
-    public ResponseEntity<String> deleteUser(UUID userId) {
-        return null;
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+
+    @Override
+    public User UpdateUser(UUID userId,UserDto userDto) {
+        Optional<User> existingUser = userRepository.findById(userId);
+        if(existingUser.isPresent()){
+            throw new RuntimeException("User already exists");
+        }
+        User user = userServiceMapper.toUserServiceEntity(userDto);
+        return userRepository.save(user);
     }
 
     @Override
-    public ResponseEntity<User> editUser(UUID userId) {
-        return null;
+    public User getSingleUser(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found: "));
     }
 
     @Override
-    public ResponseEntity<Page<User>> getAllUsers(Pageable pageable) {
-        Page<User> users =  userRepository.getAllUsers(pageable);
-        return ResponseEntity.ok(users);
-    }
+    public void deleteUser(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
 
-    @Override
-    public ResponseEntity<User> getSingleUser(UUID userId) {
-        User user =  userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with such an ID not found"));
-        return ResponseEntity.ok(user);}
+        userRepository.delete(user);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

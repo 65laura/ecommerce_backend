@@ -28,14 +28,14 @@ public class UserController {
     public User createUser(@RequestBody UserDto userdto){
         return userService.createUser(userdto);
     }
-    @GetMapping("all")
-    public ResponseEntity<Page<User>> getAllUsers(Pageable pageable){
-        return userService.getAllUsers(pageable);
-    }
-    @GetMapping("/single/{id}")
-    public ResponseEntity<User> getSingleUserById(@PathVariable UUID id){
-        return userService.getSingleUser(id);
-    }
+//    @GetMapping("all")
+//    public ResponseEntity<Page<User>> getAllUsers(Pageable pageable){
+//        return userService.getAllUsers(pageable);
+//    }
+//    @GetMapping("/single/{id}")
+//    public ResponseEntity<User> getSingleUserById(@PathVariable UUID id){
+//        return userService.getSingleUser(id);
+//    }
 //    @GetMapping("/users/single")
 //    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 //    public ResponseEntity<Object> getMyDetails(){
