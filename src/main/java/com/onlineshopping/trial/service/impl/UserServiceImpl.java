@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User updateUser(UUID userId,UserDto userDto) {
         Optional<User> existingUser = userRepository.findById(userId);
-        if(existingUser.isPresent()){
+        if(existingUser.isEmpty()){
             throw new RuntimeException("User already exists");
         }
         User user = userServiceMapper.toUserServiceEntity(userDto);

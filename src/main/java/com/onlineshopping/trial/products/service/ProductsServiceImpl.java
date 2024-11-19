@@ -38,7 +38,7 @@ public class ProductsServiceImpl implements IProductService {
     @Override
     public Products updateProduct(UUID productId, ProductDto productDto) {
         Optional<Products> existingProduct = productsRepository.findById(productId);
-        if (existingProduct.isPresent()){
+        if (existingProduct.isEmpty()){
             throw new RuntimeException("Product not found");
     }
         Products products = existingProduct.get();
