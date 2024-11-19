@@ -31,23 +31,31 @@ public class ProductsServiceImpl implements IProductService {
         if (existingProduct.isPresent()) {
             throw new RuntimeException("Product already exists");
         }
-        Products products = productServiceMapper.toProductServiceEntity(productDto);
+        Products products = new Products();
+        products.setProductCategory(productDto.getProductCategory());
+        products.setProductName(productDto.getProductName());
+        products.setDescription(productDto.getDescription());
+        products.setPrice(productDto.getPrice());
+        products.setDiscountedPrice(productDto.getDiscountedPrice());
+
     return productsRepository.save(products);
     }
 
     @Override
     public Products updateProduct(UUID productId, ProductDto productDto) {
         Optional<Products> existingProduct = productsRepository.findById(productId);
-        if (existingProduct.isEmpty()){
+        if (existingProduct.isEmpty()) {
             throw new RuntimeException("Product not found");
-    }
+        }
         Products products = existingProduct.get();
         products.setProductCategory(productDto.getProductCategory());
-        products.setProductName(products.getProductName());
-        products.setDescription(products.getDescription());
-        products.setPrice(products.getPrice());
+        products.setProductName(productDto.getProductName());
+        products.setDescription(productDto.getDescription());
+        products.setPrice(productDto.getPrice());
+        products.setDiscountedPrice(productDto.getDiscountedPrice());
         return productsRepository.save(products);
     }
+
 
     @Override
     public Page<Products> getAllProducts(Pageable pageable) {
