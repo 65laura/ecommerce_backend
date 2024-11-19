@@ -53,8 +53,8 @@ public class ProductsController {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
     @GetMapping("product/all")
-    public Page<Products> getAllProducts(Pageable pageable) {
-        return productService.getAllProducts(pageable);
+    public Page<Products> getAllProducts(@RequestHeader Integer pageNumber, @RequestHeader Integer pageSize) {
+        return productService.getAllProducts(PageUtil.getPageable(pageNumber,pageSize));
     }
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product retrieved", content = @Content(schema = @Schema(implementation = Products.class))),
