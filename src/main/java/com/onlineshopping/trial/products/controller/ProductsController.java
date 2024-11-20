@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -49,13 +50,13 @@ public class ProductsController {
         return productService.updateProduct(productId, productDto);
   }
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Products retrieved", content = @Content(schema = @Schema(implementation = Page.class))),
+            @ApiResponse(responseCode = "200", description = "Products retrieved", content = @Content(schema = @Schema(implementation = Products.class))),
             @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
     @GetMapping("product/all")
-    public Page<Products> getAllProducts(@RequestHeader Integer pageNumber, @RequestHeader Integer pageSize) {
-        return productService.getAllProducts(PageUtil.getPageable(pageNumber,pageSize));
+    public List<Products> getAllProducts() {
+        return productService.getAllProducts();
     }
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product retrieved", content = @Content(schema = @Schema(implementation = Products.class))),
