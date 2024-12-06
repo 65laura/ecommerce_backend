@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,11 +19,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private UUID cartId;
-    @Column
-    private int quantity;
-    @Column
-    private double price;
-    @Column
-    private UUID productId;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    private List<CartItem> items = new ArrayList<>();
 }
