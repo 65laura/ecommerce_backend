@@ -22,4 +22,6 @@ public class Cart {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
     private List<CartItem> items = new ArrayList<>();
+    @Column
+    private Double totalPrice;
 }
