@@ -21,5 +21,7 @@ public class Cart {
     private int quantity;
     @Column
     private double price;
+    @Column
+    private UUID productId;
 
 }

@@ -74,7 +74,7 @@ public class ProductsController {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
     @GetMapping("/search")
-    public Page<Products> searchProducts(@RequestParam(required = false) String searchParam, @RequestParam(required = false) EProductCategory productCategory,@RequestHeader Integer pageNumber, @RequestHeader Integer pageSize ) {
+    public Page<Products> searchProducts(@RequestParam String searchParam, @RequestParam(required = false) EProductCategory productCategory,@RequestHeader Integer pageNumber, @RequestHeader Integer pageSize ) {
         return productService.searchProducts(searchParam, productCategory,PageUtil.getPageable(pageNumber,pageSize));
     }
 
