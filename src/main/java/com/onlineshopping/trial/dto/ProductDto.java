@@ -10,13 +10,14 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ProductDto {
 
-    @NotNull(message = "productName can not be null")
+    @NotNull(message = "product name can't be null")
     private String productName;
+    @NotNull(message = "product category can't be null")
     private EProductCategory productCategory;
-    @NotNull(message = "price can not be null")
+    @NotNull(message = "price can't be null")
     private double price;
     private double discountedPrice;
-    @NotNull(message = "description can not be null")
+    @NotNull(message = "description can't be null")
     private String description;
 
 
