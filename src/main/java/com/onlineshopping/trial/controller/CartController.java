@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping
+@RequestMapping("cart")
 @RequiredArgsConstructor
 public class CartController {
     private  final CartService cartService;
@@ -25,7 +25,7 @@ public class CartController {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", description = "internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
 
-    @PostMapping("Cart/create")
+    @PostMapping("create")
     public Cart createProduct(UUID cartId,UUID productId,Integer quantity){
         return cartService.addProductToCart(cartId,productId,quantity);
     }
