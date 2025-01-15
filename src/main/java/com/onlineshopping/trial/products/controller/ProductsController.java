@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("public")
+@RequestMapping("product")
 @RequiredArgsConstructor
 public class ProductsController {
 
@@ -33,9 +33,8 @@ public class ProductsController {
             @ApiResponse(responseCode = "201", description = "Product creation", content = @Content(schema = @Schema(implementation = Products.class))),
             @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
-//    @SecurityRequirement(name = "Bearer Authentication")
-    @PostMapping("product/create")
+            @ApiResponse(responseCode = "500", description = "internal server error", content = @Content(schema = @Schema(implementation = ErrorResponse.class))) }) @SecurityRequirement(name = "Bearer Authentication")
+    @PostMapping("create")
     public Products createProduct(ProductDto productDto){
         return productService.createProduct(productDto);
     }
@@ -45,7 +44,7 @@ public class ProductsController {
             @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
-    @PutMapping("product/update")
+    @PutMapping("update")
     public Products updateProduct(@RequestHeader UUID productId, @RequestBody ProductDto productDto) {
         return productService.updateProduct(productId, productDto);
   }
@@ -54,7 +53,7 @@ public class ProductsController {
             @ApiResponse(responseCode = "401", description = "Unauthenticated", content = @Content),
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content)
     })
-    @GetMapping("product/all")
+    @GetMapping("all")
     public List<Products> getAllProducts() {
         return productService.getAllProducts();
     }
