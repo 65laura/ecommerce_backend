@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 @RequiredArgsConstructor
@@ -28,7 +29,6 @@ public class CartServiceImpl implements CartService {
         Products product = productsRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        // Check if the product is already in the cart
         CartItem existingItem = cart.getItems().stream()
                 .filter(item -> item.getProduct().getProductId().equals(productId))
                 .findFirst()
@@ -49,7 +49,14 @@ public class CartServiceImpl implements CartService {
         cart.setTotalPrice(totalPrice);
 
         return cartRepository.save(cart);
+
     }
+
+
+    @Override
+    public List<Cart> getAllCartItems() {
+        return cartRepository.findAll();
     }
+}
 
    
